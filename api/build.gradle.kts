@@ -9,14 +9,12 @@ val jansi_version: String by project
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
-    id("application")
     id("com.google.cloud.tools.jib")
-    id("com.github.johnrengelman.shadow")
     id("io.ktor.plugin")
     sources
 }
 
-description = "The API for Horo"
+description = "The API for Mizore"
 
 repositories {
     mavenCentral()
@@ -53,21 +51,18 @@ dependencies {
 
 jib {
     to {
-        image = "winteryfox/horo-settings:$version"
+        image = "winteryfox/mizore-api:$version"
         tags = setOf("latest", version.toString())
     }
     from.image = "amazoncorretto:19-alpine3.16"
-    container.mainClass = "bot.horo.api.ApiKt"
 }
 
-application {
-    mainClassName = "bot.horo.api.ApiKt"
-}
+project.setProperty("mainClassName", "$group.$name.MainKt")
 
 tasks.jar {
     manifest {
         attributes(
-            "Main-Class" to "bot.horo.api.ApiKt"
+            "Main-Class" to "$group.$name.MainKt"
         )
     }
 }

@@ -7,12 +7,6 @@ plugins {
     id("com.github.johnrengelman.shadow")
 }
 
-group = "bot.horo"
-version = "1.0.0"
-description = "A multi-functional Discord bot with a focus on tamagotchi"
-java.sourceCompatibility = JavaVersion.VERSION_18
-java.targetCompatibility = JavaVersion.VERSION_18
-
 repositories {
     mavenCentral()
     maven("https://oss.sonatype.org/content/repositories/snapshots")
@@ -42,21 +36,16 @@ tasks {
 
 jib {
     to {
-        image = "winteryfox/horo-gateway:$version"
+        image = "winteryfox/mizore-gateway:$version"
         tags = setOf("latest", version.toString())
     }
     from.image = "amazoncorretto:19-alpine3.16"
-    container.mainClass = "bot.horo.MainKt"
-}
-
-application {
-    mainClassName = "bot.horo.gateway.GatewayKt"
 }
 
 tasks.jar {
     manifest {
         attributes(
-            "Main-Class" to "bot.horo.gateway.GatewayKt"
+            "Main-Class" to "$group.$name.MainKt"
         )
     }
 }
